@@ -1,9 +1,10 @@
 <div class="row">
   <div class="col-sm">
-    <%= task.title %>
+    <%= link_to_unless_current task.title, task %>
   </div>
   <div class="col-sm">
-    <%= task.description %>
+    <%= truncate(task.description) # { link_to "Continue", task_path(task) }  
+    %>
   </div>
   <div class="col-sm">
     <%= status_to_string(task.status) %>

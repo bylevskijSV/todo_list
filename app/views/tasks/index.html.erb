@@ -1,7 +1,10 @@
-<% unless @tasks.nil? %>
-  
+<% unless @tasks.empty? %>
   <div class="container">
-    <p>Task</p>
+    <div class="row">
+      <div class="col">
+        <p class="text-center">Task</p>
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm">
         Title
@@ -20,16 +23,31 @@
 
     <%= link_to 'Create task', new_task_path, class: 'btn btn-primary'%>
   </div>
-
-  <div class="container">
-    <p>Task done</p>
-    <% @completed_tasks.each do |task| %>
-      <%= render partial: 'task', object: task%>
-    <% end%>
-  </div>
 <% else %>
-  <div class="">
-    No task
-    <%= link_to 'Create task', new_task_path, class: 'btn btn-primary'%>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm text-center">
+        No task
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm text-center">
+        <%= link_to 'Create task', new_task_path, class: 'btn btn-primary'%>
+      </div>
+    </div>
   </div>
 <% end%>
+
+<% unless @completed_tasks.empty? %>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p class="text-center">Task done</p>
+      </div>
+    </div>
+
+    <% @completed_tasks.each do |task| %>
+      <%= render partial: 'task', object: task%>
+    <% end %>
+  </div>
+<% end %>
