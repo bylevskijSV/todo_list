@@ -2,15 +2,22 @@ class TasksController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index]
 
   def index
-    unless current_user.nil?
+    if user_signed_in?
       @tasks = current_user.tasks.where.not(status: 3).order(:updated_at)
 
       @completed_tasks = current_user.tasks.where(status: 3).order(updated_at: :desc)
+    else
+      render :no_authenticate_index
     end
+  end
+
+  def no_authenticate_index
   end
 
   def new
     @task = Task.new
+
+    @users = User.where.not(email: current_user.email)
   end
 
   def show
@@ -18,8 +25,9 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = current_user.tasks.create task_params
-    if @task.save
+    @task = assigned_task? ? Task.create(assigned_task_params) : current_user.tasks.create(task_params)
+
+    if @task.errors.empty?
       redirect_to root_path
     else
       render plain: @task.errors.full_messages
@@ -28,11 +36,15 @@ class TasksController < ApplicationController
 
   def edit
     @task = Task.find(params[:id])
+    @users = User.where.not(email: current_user.email)
   end
 
   def update
     @task = Task.find(params[:id])
-    if @task.update task_params
+
+    update_data = assigned_task? ? assigned_task_params : task_params
+
+    if @task.update update_data
       redirect_to root_path
     else
       render 'edit'
@@ -57,5 +69,14 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :description, :status)
+  end
+
+  def assigned_task_params
+    user_id, parent_id = params[:task][:parent_id], current_user.id
+    params.require(:task).permit(:title, :description, :status).merge(user_id: user_id, parent_id: parent_id)
+  end
+
+  def assigned_task?
+    params[:task][:assigned_task].to_i == 1
   end
 end

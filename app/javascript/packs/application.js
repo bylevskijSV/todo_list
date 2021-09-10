@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap'
 import "@fortawesome/fontawesome-free/css/all"
 
 require("stylesheets/application.scss")
+require("packs/task_form.js")
 
 Rails.start()
 Turbolinks.start()
