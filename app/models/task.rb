@@ -1,6 +1,9 @@
 class Task < ApplicationRecord
   belongs_to :user
-  after_create :status_new
+  before_create :status_new
+
+  validates :description, presence: true, length: { minimum: 10, maximum: 300 }
+  validates :title, presence: true, length: { minimum: 3, maximum: 100 }
 
   STATUS = [
     ['new', 1],
@@ -18,5 +21,4 @@ class Task < ApplicationRecord
   def status_new
     self.status = 1
   end
-
 end
