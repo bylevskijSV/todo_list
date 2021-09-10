@@ -1,38 +1,41 @@
 <% unless @tasks.empty? %>
   <div class="container">
-    <div class="row">
-      <div class="col">
-        <p class="text-center">Task</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
-        Title
-      </div>
-      <div class="col-sm">
-        Description
-      </div>
-      <div class="col-sm">
-        Status
-      </div>
-    </div>
 
-    <% @tasks.each do |task| %>
-      <%= render partial: 'task', object: task%>
-    <% end%>
+      <div class="row">
+        <div class="col">
+          <h3 class="text-center">Task</h3>
+        </div>
+      </div>
+      <div class="container border bg-light">
+        <div class="row">
+          <div class="col-sm">
+            Title
+          </div>
+          <div class="col-sm">
+            Description
+          </div>
+          <div class="col-sm">
+            Status
+          </div>
+        </div>
+      </div>
 
-    <%= link_to 'Create task', new_task_path, class: 'btn btn-primary'%>
+      <% @tasks.each do |task| %>
+        <%= render partial: 'task', object: task%>
+      <% end%>
+
+    <%= link_to 'Create task', new_task_path, class: 'btn btn-primary mt-1'%>
   </div>
 <% else %>
-  <div class="container">
+  <div class="container bg-light">
     <div class="row">
       <div class="col-sm text-center">
-        No task
+        <h3>No task</h3>
       </div>
     </div>
     <div class="row">
       <div class="col-sm text-center">
-        <%= link_to 'Create task', new_task_path, class: 'btn btn-primary'%>
+        <%= link_to 'Create task', new_task_path, class: 'btn btn-primary mt-1'%>
       </div>
     </div>
   </div>
@@ -42,12 +45,14 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <p class="text-center">Task done</p>
+        <h3 class="text-center">Task done</h3>
       </div>
     </div>
 
+    
     <% @completed_tasks.each do |task| %>
       <%= render partial: 'task', object: task%>
     <% end %>
+    
   </div>
 <% end %>
