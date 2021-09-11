@@ -9,4 +9,15 @@ module TasksHelper
       Task::STATUS[2][0]
     end
   end
+
+  def status_color(status)
+    case status
+    when 1
+      'danger'
+    when 2
+      'warning'
+    when 3
+      'success'
+    end
+  end
 end
