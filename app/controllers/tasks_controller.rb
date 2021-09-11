@@ -28,9 +28,11 @@ class TasksController < ApplicationController
     @task = assigned_task? ? Task.create(assigned_task_params) : current_user.tasks.create(task_params)
 
     if @task.errors.empty?
+      flash[:notice] = 'Task was created successfully'
       redirect_to root_path
     else
-      render plain: @task.errors.full_messages
+      @users = User.where.not(email: current_user.email)
+      render :edit
     end
   end
 
@@ -45,7 +47,8 @@ class TasksController < ApplicationController
     update_data = assigned_task? ? assigned_task_params : task_params
 
     if @task.update update_data
-      redirect_to root_path
+      flash[:notice] = 'Task was updated successfully'
+      redirect_to task_path
     else
       render 'edit'
     end
@@ -54,6 +57,7 @@ class TasksController < ApplicationController
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
+    flash[:alert] = 'Task was deleted successfully'
     redirect_to root_path
   end
 
