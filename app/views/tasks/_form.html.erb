@@ -1,3 +1,5 @@
+<%= render 'errors', obj: @task %>
+
 <%= form_with model: @task do |f| %>
   <div class="form-group">
     <%= f.label :title%>
