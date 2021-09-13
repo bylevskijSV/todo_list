@@ -216,7 +216,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   devise
-  factory_bot_rails
+  factory_bot_rails (~> 6.2)
   jbuilder (~> 2.7)
   listen (~> 3.3)
   pg (~> 1.1)
