@@ -16,6 +16,11 @@ class Task < ApplicationRecord
     save
   end
 
+  def parent_name
+    user = User.find(parent_id)
+    "#{user.first_name} #{user.last_name}"
+  end
+
   private
 
   def status_new
