@@ -7,3 +7,8 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.extend ControllerMacros, type: :controller
 end
+
+RSpec.shared_context :login_user do
+  let(:user) { FactoryBot.create(:user) }
+  before { sign_in user }
+end
