@@ -12,18 +12,26 @@
   </div>
 
   <% if @task.id.present? %>
-    <%= f.select :status, Task::STATUS %>
+    <div class="form-group">
+      <%= f.select :status, Task::STATUS %>
+    </div>
   <% end %>
 
-  <div class="form-group">
-    <%= f.label :assigned_task %>
-    <%= f.check_box :assigned_task, id: 'assigned_checkbox' %>
-  </div>
+  <% if @task.parent_id.nil? %>
+    <div class="form-group">
+      <%= f.label :assigned_task %>
+      <%= f.check_box :assigned_task, id: 'assigned_checkbox' %>
+    </div>
 
-  <div class="form-group" id="assigned_select">
-    <%= f.label :parent_id, 'Assign to:' %>
-    <%= f.select :parent_id, @users.collect { |p| [p.email, p.id] }, class: 'form-control' %>
-  </div>
+    <div class="form-group" id="assigned_select">
+      <%= f.label :parent_id, 'Assign to:' %>
+      <%= f.select :parent_id, @users.collect { |p| [p.email, p.id] }, class: 'form-control' %>
+    </div>
+  <% else %>
+    <div class="form-group">
+      <p> The task is assigned by <%= @task.parent_name %>
+    </div>
+  <% end %>
 
   <%= f.submit class: 'btn btn-primary'%>
 <% end %>
