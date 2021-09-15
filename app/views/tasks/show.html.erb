@@ -1,0 +1,9 @@
+
+<div class="card bg-light">
+  <div class="card-body">
+    <h5 class="card-title"><%= @task.title %></h5>
+    <p class="card-text"><%= @task.description %></p>
+    <%= link_to 'Edit card', edit_task_path, class: 'card-link' %>
+    <%= link_to 'Back to all tasks', tasks_path, class: 'card-link' %>
+  </div>
+</div>
