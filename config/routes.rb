@@ -7,5 +7,5 @@ Rails.application.routes.draw do
       get 'complete'
     end
   end
-  get 'no_authenticate', to: 'tasks#no_authenticate'
+  get 'not_authentificated', to: 'tasks#not_authentificated'
 end
