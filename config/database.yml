@@ -46,5 +46,5 @@ test:
 production:
   <<: *default
   database: todo_list_production
-  username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
-  password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
+  username: todo_list
+  password: <%= ENV['TODO_LIST_DATABASE_PASSWORD'] %>
