@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_092715) do
   create_table "tasks", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.integer "status", default: 0
+    t.string "status", default: "new"
     t.integer "user_id"
     t.integer "parent_id"
     t.datetime "created_at", precision: 6, null: false
