@@ -1,17 +1,16 @@
 <div class="container border bg-light">
   <div class="row">
     <div class="col-sm text-<%= status_color(task.status) %>">
-      <%= link_to_unless_current task.title, task, class: "a-status-#{task.status}" %>
+      <%= link_to_unless_current task.title, task, class: "a-status-#{task.status == 'in progress' ? 'in-progress' : task.status}" %>
     </div>
     <div class="col-sm text-<%= status_color(task.status) %>">
-      <%= truncate(task.description) # { link_to "Continue", task_path(task) }  
-      %>
+      <%= truncate(task.description) %>
     </div>
     <div class="col-sm text-<%= status_color(task.status) %>">
-      <%= status_to_string(task.status) %>
+      <%= task.status %>
       <%= link_to content_tag('i', '', class: 'fas fa-pencil-alt'), edit_task_path(task), class: 'action ml-4'%>
       <%= link_to content_tag('i', '', class: 'fas fa-trash-alt'), task_path(task), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action'%>
-      <%= unless task.status == 3
+      <%= unless task.task_done?
             link_to content_tag('i', '', class: 'fas fa-check-square'), complete_task_path(task), class: 'action'
           end
       %>
