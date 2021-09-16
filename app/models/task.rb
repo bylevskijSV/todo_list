@@ -1,6 +1,10 @@
 class Task < ApplicationRecord
   belongs_to :user
+  belongs_to :parent, class_name: 'User', optional: true
+
   before_create :status_new
+
+  delegate :full_name, to: :parent, prefix: true
 
   validates :description, presence: true, length: { minimum: 10, maximum: 300 }
   validates :title, presence: true, length: { minimum: 3, maximum: 100 }
