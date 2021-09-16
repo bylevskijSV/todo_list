@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   before_action :check_user_tasks, only: %i[show edit update destroy]
 
   def index
-    redirect_to not_authentificated_path unless user_signed_in?
+    return redirect_to not_authentificated_path unless user_signed_in?
 
     @tasks = current_user.tasks.where.not(status: 3).order(updated_at: :desc)
 
@@ -17,7 +17,7 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
 
-    @users = User.where.not(email: current_user.email)
+    @users_for_select = emails_and_users_id
   end
 
   def show; end
@@ -28,13 +28,13 @@ class TasksController < ApplicationController
     if @task.errors.empty?
       redirect_to tasks_path
     else
-      @users = User.where.not(email: current_user.email)
+      @users_for_select = emails_and_users_id
       render :edit
     end
   end
 
   def edit
-    @users = User.where.not(email: current_user.email)
+    @users_for_select = emails_and_users_id
   end
 
   def update
@@ -44,7 +44,7 @@ class TasksController < ApplicationController
       flash[:notice] = 'Task was updated successfully'
       redirect_to task_path
     else
-      @users = User.where.not(email: current_user.email)
+      @users_for_select = emails_and_users_id
       render 'edit'
     end
   end
@@ -86,5 +86,9 @@ class TasksController < ApplicationController
 
     flash[:alert] = 'You can only edit, view, delete your own task'
     redirect_to tasks_path
+  end
+
+  def emails_and_users_id
+    User.where.not(email: current_user.email).pluck(:email, :id)
   end
 end
