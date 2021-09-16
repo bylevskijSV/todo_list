@@ -1,6 +1,10 @@
 class Task < ApplicationRecord
   belongs_to :user
+  belongs_to :parent, class_name: 'User', optional: true
+
   before_create :status_new
+
+  delegate :full_name, to: :parent, prefix: true
 
   validates :description, presence: true, length: { minimum: 10, maximum: 300 }
   validates :title, presence: true, length: { minimum: 3, maximum: 100 }
@@ -14,11 +18,6 @@ class Task < ApplicationRecord
   def complete!
     self.status = 3
     save
-  end
-
-  def parent_name
-    user = User.find(parent_id)
-    "#{user.first_name} #{user.last_name}"
   end
 
   private
