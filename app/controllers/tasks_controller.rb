@@ -5,11 +5,13 @@ class TasksController < ApplicationController
   before_action :check_user_tasks, only: %i[show edit update destroy]
 
   def index
-    redirect_to not_authentificated_path unless user_signed_in?
+     if user_signed_in?
+      @tasks = current_user.tasks.where.not(status: 3).order(updated_at: :desc)
 
-    @tasks = current_user.tasks.where.not(status: 3).order(updated_at: :desc)
-
-    @completed_tasks = current_user.tasks.where(status: 3).order(updated_at: :desc)
+      @completed_tasks = current_user.tasks.where(status: 3).order(updated_at: :desc)
+     else
+       redirect_to not_authentificated_path
+     end
   end
 
   def not_authentificated; end
