@@ -7,8 +7,8 @@ default: &default
 development:
   <<: *default
   database: todo_list_development
-  username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
-  password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
+  # username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
+  # password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
 
   host: localhost
 
@@ -20,8 +20,8 @@ development:
 test:
   <<: *default
   database: todo_list_test
-  username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
-  password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
+  # username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
+  # password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
