@@ -17,7 +17,7 @@
     </div>
   <% end %>
 
-  <% if @task.parent_id.nil? && !@users.empty? %>
+  <% if @task.parent_id.nil? && !@users_for_select.empty? %>
     <div class="form-group">
       <%= f.label :assigned_task %>
       <%= f.check_box :assigned_task, id: 'assigned_checkbox' %>
@@ -25,11 +25,11 @@
 
     <div class="form-group" id="assigned_select">
       <%= f.label :parent_id, 'Assign to:' %>
-      <%= f.select :parent_id, @users.collect { |p| [p.email, p.id] }, class: 'form-control' %>
+      <%= f.select :parent_id, @users_for_select, class: 'form-control' %>
     </div>
   <% else %>
     <div class="form-group">
-      <p> The task is assigned by <%= @task.parent_name %>
+      <p> The task is assigned by <%= @task.parent_full_name %>
     </div>
   <% end %>
 
