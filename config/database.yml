@@ -7,8 +7,12 @@ default: &default
 development:
   <<: *default
   database: todo_list_development
+<<<<<<< HEAD
   # username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
   # password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
+=======
+
+>>>>>>> refactor_task_controller
 
   host: localhost
 
@@ -16,8 +20,12 @@ development:
 test:
   <<: *default
   database: todo_list_test
+<<<<<<< HEAD
   # username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
   # password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
+=======
+
+>>>>>>> refactor_task_controller
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -42,5 +50,5 @@ test:
 production:
   <<: *default
   database: todo_list_production
-  username: <%= Rails.application.credentials.database[Rails.env.to_sym][:username] %>
-  password: <%= Rails.application.credentials.database[Rails.env.to_sym][:password] %>
+  username: todo_list
+  password: <%= ENV['TODO_LIST_DATABASE_PASSWORD'] %>

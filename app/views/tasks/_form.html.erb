@@ -17,7 +17,7 @@
     </div>
   <% end %>
 
-  <% if @task.parent_id.nil? %>
+  <% if @task.parent_id.nil? && !@users.empty? %>
     <div class="form-group">
       <%= f.label :assigned_task %>
       <%= f.check_box :assigned_task, id: 'assigned_checkbox' %>

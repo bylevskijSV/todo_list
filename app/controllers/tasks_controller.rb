@@ -1,20 +1,18 @@
 class TasksController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index no_authenticate]
+  skip_before_action :authenticate_user!, only: %i[index not_authentificated]
 
   before_action :set_task, only: %i[show edit update destroy complete]
-  before_action :require_user_tasks, only: %i[show edit update destroy]
+  before_action :check_user_tasks, only: %i[show edit update destroy]
 
   def index
-    if user_signed_in?
-      @tasks = current_user.tasks.where.not(status: 3).order(updated_at: :desc)
+    redirect_to not_authentificated_path unless user_signed_in?
 
-      @completed_tasks = current_user.tasks.where(status: 3).order(updated_at: :desc)
-    else
-      redirect_to no_authenticate_path
-    end
+    @tasks = current_user.tasks.where.not(status: 3).order(updated_at: :desc)
+
+    @completed_tasks = current_user.tasks.where(status: 3).order(updated_at: :desc)
   end
 
-  def no_authenticate; end
+  def not_authentificated; end
 
   def new
     @task = Task.new
@@ -28,8 +26,7 @@ class TasksController < ApplicationController
     @task = assigned_task? ? Task.create(assigned_task_params) : current_user.tasks.create(task_params)
 
     if @task.errors.empty?
-      flash[:notice] = 'Task was created successfully'
-      redirect_to task_path(@task)
+      redirect_to tasks_path
     else
       @users = User.where.not(email: current_user.email)
       render :edit
@@ -41,9 +38,9 @@ class TasksController < ApplicationController
   end
 
   def update
-    update_data = assigned_task? ? assigned_task_params : task_params
+    updated_task = assigned_task? ? assigned_task_params : task_params
 
-    if @task.update update_data
+    if @task.update updated_task
       flash[:notice] = 'Task was updated successfully'
       redirect_to task_path
     else
@@ -61,7 +58,7 @@ class TasksController < ApplicationController
   def complete
     @task.complete!
 
-    redirect_to root_path
+    redirect_to tasks_path
   end
 
   private
@@ -71,8 +68,9 @@ class TasksController < ApplicationController
   end
 
   def assigned_task_params
-    user_id, parent_id = params[:task][:parent_id], current_user.id
-    params.require(:task).permit(:title, :description, :status).merge(user_id: user_id, parent_id: parent_id)
+    user_id = params[:task][:parent_id]
+    parent_id = current_user.id
+    task_params.merge(user_id: user_id, parent_id: parent_id)
   end
 
   def assigned_task?
@@ -83,7 +81,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  def require_user_tasks
+  def check_user_tasks
     return unless current_user != @task.user
 
     flash[:alert] = 'You can only edit, view, delete your own task'
