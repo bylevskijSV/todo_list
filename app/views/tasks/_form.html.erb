@@ -13,7 +13,7 @@
 
   <% if @task.id.present? %>
     <div class="form-group">
-      <%= f.select :status, Task::STATUS %>
+      <%= f.select :status, Task::STATUSES %>
     </div>
   <% end %>
 
@@ -35,5 +35,6 @@
       </div>
     <% end %>
   <% end %>
+
   <%= f.submit class: 'btn btn-primary'%>
 <% end %>

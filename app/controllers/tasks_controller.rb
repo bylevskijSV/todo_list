@@ -7,9 +7,9 @@ class TasksController < ApplicationController
   def index
     return redirect_to not_authentificated_path unless user_signed_in?
 
-    @tasks = current_user.tasks.where.not(status: 3).order(updated_at: :desc)
+    @tasks = current_user.tasks.where.not(status: Task::DONE).order(updated_at: :desc)
 
-    @completed_tasks = current_user.tasks.where(status: 3).order(updated_at: :desc)
+    @completed_tasks = current_user.tasks.where(status: Task::DONE).order(updated_at: :desc)
   end
 
   def not_authentificated; end
@@ -42,7 +42,7 @@ class TasksController < ApplicationController
 
     if @task.update updated_task
       flash[:notice] = 'Task was updated successfully'
-      redirect_to task_path
+      redirect_to tasks_path
     else
       @users_for_select = emails_and_users_id
       render 'edit'
